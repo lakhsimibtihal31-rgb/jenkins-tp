@@ -5,7 +5,11 @@ pipeline {
             steps {
                 withCredentials([string(credentialsId: 'sonartoken', variable: 'SONAR_TOKEN')]) {
                     sh """
-                        echo 'SonarQube Analysis done with token!'
+                        mvn clean verify sonar:sonar \
+                        -Dsonar.projectKey=jenkins-tp \
+                        -Dsonar.projectName='jenkins-tp' \
+                        -Dsonar.host.url=http://localhost:9000 \
+                        -Dsonar.token=\${SONAR_TOKEN}
                     """
                 }
             }
